@@ -51,7 +51,7 @@ func init() {
 				ctx.SendChain(message.At(uid), message.Text("请装备鱼竿后钓鱼", err))
 				return
 			}
-			ctx.SendChain(message.Reply(ctx.Event.MessageID), message.Text("你尚未装备鱼竿,是否花费40购买鱼竿?\n回答\"是\"或\"否\""))
+			ctx.SendChain(message.Reply(ctx.Event.MessageID), message.Text("你尚未装备鱼竿,是否花费5购买鱼竿?\n回答\"是\"或\"否\""))
 			// 等待用户下一步选择
 			recv, cancel := zero.NewFutureEvent("message", 999, false, zero.RegexRule(`^(是|否)$`), zero.CheckUser(ctx.Event.UserID)).Repeat()
 			defer cancel()
@@ -68,11 +68,11 @@ func init() {
 						return
 					}
 					money := wallet.GetWalletOf(uid)
-					if money < 40 {
+					if money < 5 {
 						ctx.SendChain(message.Text("你钱包当前只有", money, "ATRI币,无法完成支付"))
 						return
 					}
-					err = wallet.InsertWalletOf(uid, -40)
+					err = wallet.InsertWalletOf(uid, -5)
 					if err != nil {
 						ctx.SendChain(message.Text("[ERROR at fish.go.3]:", err))
 						return
